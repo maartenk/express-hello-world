@@ -6,14 +6,13 @@ build-code-job:
   stage: build
   image: node:18-buster
   script:
-    # TODO: build application
+    - echo "build"
 
 deploy-code-job:
   stage: deploy
   image: node:18-buster
   variables:
-	 # TODO: add link to github repository
-    GITHUB_URL:
+    GITHUB_URL: https://github.com/maartenk/express-hello-world
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval `ssh-agent -s`
@@ -22,5 +21,5 @@ deploy-code-job:
     - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
   script:
-    # TODO: merge feature branch into main
-		# TODO: push main to github
+    - echo "merge feature branch into main"
+    - echo "push main to github"
