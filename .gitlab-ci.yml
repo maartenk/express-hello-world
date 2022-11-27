@@ -28,5 +28,5 @@ deploy-code-job:
     - git merge origin/feature
     - git remote add github git@github.com:maartenk/express-hello-world.git 
     - git fetch github main:main
-    - git pull github/main
+    - git merge github/main
     - git push -u github main
