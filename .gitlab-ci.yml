@@ -24,7 +24,7 @@ deploy-code-job:
     - echo "merge feature branch into main"
     - echo "push main to github"
     - git pull origin main
-    - git checkhout main
+    - git checkout main
     - git merge origin/feature
     - git push
     - git remote add github git@github.com:maartenk/express-hello-world.git 
