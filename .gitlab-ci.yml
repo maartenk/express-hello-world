@@ -1,0 +1,33 @@
+stages:
+#  - build
+  - deploy
+
+#build-code-job:
+#  stage: build
+#  image: node:18-buster
+#  script:
+#    - echo "build"
+
+deploy-code-job:
+  stage: deploy
+  image: node:18-buster
+  variables:
+    GITHUB_URL: https://github.com/maartenk/express-hello-world
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval `ssh-agent -s`
+    - ssh-add <(echo "$PRIVATE_SSH_KEY")
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+  script:
+    - git config --global user.email "maarten@kremers.eu"
+    - git config --global user.name "Maarten Kremers"
+    - echo "merge feature branch into main"
+    - git pull origin main
+    - git checkout main
+    - git merge origin/feature
+    - echo "push main to github"
+    - git remote add github git@github.com:maartenk/express-hello-world.git 
+    - git pull github main --allow-unrelated-histories
+    - git push -u github main
